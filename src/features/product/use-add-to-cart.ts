@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { TProduct } from '@/entities/product';
 
 export const useAddToCart = (productId: TProduct['id']) => {
@@ -6,16 +7,18 @@ export const useAddToCart = (productId: TProduct['id']) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    console.log(`Product ${productId} added to cart with quantity ${quantity}.`);
+    console.log(
+      `Product ${productId} added to cart with quantity ${quantity}.`,
+    );
     setIsAddedToCart(true);
   };
 
   const handleIncreaseQuantity = () => {
-    setQuantity(q => q + 1);
+    setQuantity((q) => q + 1);
   };
 
   const handleDecreaseQuantity = () => {
-    setQuantity(q => Math.max(1, q - 1));
+    setQuantity((q) => Math.max(1, q - 1));
   };
 
   return {

@@ -1,9 +1,9 @@
-import React from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { HeartIcon, ShuffleIcon, EyeOpenIcon } from "@radix-ui/react-icons";
-import { TProduct } from "../../../model/product.type";
-import styles from "../product-card.module.css";
+import { HeartIcon, ShuffleIcon, EyeOpenIcon } from '@radix-ui/react-icons';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+
+import { TProduct } from '../../../model/product.type';
+import styles from '../product-card.module.css';
 
 const quickActionsVariants = {
   hidden: {
@@ -37,7 +37,7 @@ export const ProductImage = ({
   onQuickView,
 }: ProductImageProps) => {
   return (
-    <div className={styles["image-wrapper"]}>
+    <div className={styles['image-wrapper']}>
       <Image
         src={product.imageUrl}
         alt={product.title}
@@ -49,7 +49,7 @@ export const ProductImage = ({
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            className={styles["quick-actions"]}
+            className={styles['quick-actions']}
             variants={quickActionsVariants}
             initial="hidden"
             animate="visible"
@@ -57,7 +57,7 @@ export const ProductImage = ({
           >
             <motion.button
               variants={actionButtonVariant}
-              className={styles["action-button"]}
+              className={styles['action-button']}
               title="Добавить в избранное"
               onClick={onFavorite}
             >
@@ -65,7 +65,7 @@ export const ProductImage = ({
             </motion.button>
             <motion.button
               variants={actionButtonVariant}
-              className={styles["action-button"]}
+              className={styles['action-button']}
               title="Сравнить"
               onClick={onCompare}
             >
@@ -73,7 +73,7 @@ export const ProductImage = ({
             </motion.button>
             <motion.button
               variants={actionButtonVariant}
-              className={styles["action-button"]}
+              className={styles['action-button']}
               title="Быстрый просмотр"
               onClick={onQuickView}
             >

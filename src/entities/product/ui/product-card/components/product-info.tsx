@@ -1,7 +1,7 @@
-import React from "react";
-import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
-import { TProduct } from "../../../model/product.type";
-import styles from "../product-card.module.css";
+import { StarFilledIcon, StarIcon } from '@radix-ui/react-icons';
+
+import { TProduct } from '../../../model/product.type';
+import styles from '../product-card.module.css';
 
 type ProductInfoProps = {
   product: TProduct;

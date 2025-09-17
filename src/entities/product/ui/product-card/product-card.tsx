@@ -1,15 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { TProduct } from "../../model/product.type";
-import styles from "./product-card.module.css";
-import { useProductActions } from "@/features/product/use-product-actions";
+import { useState } from 'react';
 
-import { ProductImage } from "./components/product-image";
-import { ProductInfo } from "./components/product-info";
-import { ProductCharacteristics } from "./components/product-characteristics";
-import { ProductPurchase } from "./components/product-purchase";
+import { motion } from 'framer-motion';
+
+import { useProductActions } from '@/features/product/use-product-actions';
+
+import { TProduct } from '../../model/product.type';
+
+import { ProductCharacteristics } from './components/product-characteristics';
+import { ProductImage } from './components/product-image';
+import { ProductInfo } from './components/product-info';
+import { ProductPurchase } from './components/product-purchase';
+import styles from './product-card.module.css';
 
 type ProductCardProps = {
   product: TProduct;
