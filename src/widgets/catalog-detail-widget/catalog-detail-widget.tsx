@@ -14,7 +14,7 @@ const getProductData = async (slug: string): Promise<Product> => {
   return response.json();
 };
 
-export const CatalogDetail = ({ slug }: { slug: string }) => {
+export const CatalogDetailWidget = ({ slug }: { slug: string }) => {
   const { data, isLoading, isError } = useQuery<Product>({
     queryKey: ['catalogDetail', slug],
     queryFn: () => getProductData(slug),

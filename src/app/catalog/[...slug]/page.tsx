@@ -5,9 +5,8 @@ import {
 } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 
-import { CatalogApiResponse } from '@/entities/catalog/catalog.type';
-import { CatalogDetail } from '@/widgets/catalog-detail';
-import { CatalogList } from '@/widgets/catalog-list';
+import { getCatalogData, getCatalogDataBySlug } from '@/shared/api';
+import { CatalogDetailWidget, CatalogListWidget } from '@/widgets';
 
 // Преобразует URL в массив сегментов (slug) для динамических маршрутов Next.js.
 const getSlugArrayFromUrl = (url: string) => {
@@ -18,14 +17,9 @@ const getSlugArrayFromUrl = (url: string) => {
 };
 
 // Функция Next.js для генерации статических путей во время сборки.
-// Она сообщает Next.js, какие страницы необходимо предварительно отрендерить.
 export async function generateStaticParams() {
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL!}catalog/`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-    const data: CatalogApiResponse = await response.json();
+    const data = await getCatalogData();
 
     const slugs = [
       ...data.items.map((item) => ({ slug: getSlugArrayFromUrl(item.url) })),
@@ -34,21 +28,20 @@ export async function generateStaticParams() {
       })),
     ];
 
-    console.log(`✅ Generated ${slugs.length} static catalog paths`);
+    console.log(`Generated ${slugs.length} static catalog paths`);
     return slugs;
   } catch (error) {
-    console.error('❌ Failed to generate static params:', error);
+    console.error('Failed to generate static params:', error);
     throw new Error('Failed to generate static params');
   }
 }
 
-// Получает данные для конкретной страницы (раздела или товара) по ее slug.
+// Получает данные для конкретной страницы, используя новый API-слой
+
 const getPageData = async (slug: string) => {
   let response;
   try {
-    response = await fetch(
-      `https://litra-adm.workup.spb.ru/api/catalog/${slug}/`,
-    );
+    return await getCatalogDataBySlug(slug);
   } catch (error) {
     // Ловим только ошибки сети (если fetch не удался)
     console.error('Fetch error in getPageData:', error);
@@ -89,7 +82,7 @@ export default async function DynamicCatalogPage(props: {
     });
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <CatalogList />
+        <CatalogListWidget />
       </HydrationBoundary>
     );
   }
@@ -101,7 +94,7 @@ export default async function DynamicCatalogPage(props: {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <CatalogDetail slug={slugPath} />
+      <CatalogDetailWidget slug={slugPath} />
     </HydrationBoundary>
   );
 }

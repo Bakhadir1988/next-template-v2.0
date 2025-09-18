@@ -1,5 +1,5 @@
 import { Product } from '@/entities/product';
-import { Tag } from '@/entities/tag';
+import { TagDto } from '@/entities/tag';
 
 export interface CatalogSection {
   item_id: string;
@@ -13,6 +13,6 @@ export interface CatalogApiResponse {
   };
   items: Product[];
   sections: CatalogSection[];
-  upper_tags: Tag[];
-  lower_tags: Tag[];
+  upper_tags: TagDto[];
+  lower_tags: TagDto[];
 }

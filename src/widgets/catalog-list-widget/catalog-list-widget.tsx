@@ -3,11 +3,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
-import { CatalogApiResponse } from '@/entities/catalog/catalog.type';
+import { CatalogApiResponse } from '@/entities/catalog/model/catalog.type';
 import { ProductCard } from '@/entities/product/ui/product-card/product-card';
-import { TagList } from '@/widgets/tag-list';
+import { TagList } from '@/entities/tag';
 
-import { CatalogSections } from './components/catalog-sections';
+import { CatalogSections } from '../../entities/catalog/ui/catalog-sections';
 
 const getCatalogData = async (path: string): Promise<CatalogApiResponse> => {
   // Construct the API path from the browser path
@@ -19,7 +19,7 @@ const getCatalogData = async (path: string): Promise<CatalogApiResponse> => {
   return response.json();
 };
 
-export const CatalogList = () => {
+export const CatalogListWidget = () => {
   const pathname = usePathname();
 
   const { data, isLoading, isError } = useQuery<CatalogApiResponse>({

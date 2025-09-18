@@ -1,3 +1,3 @@
 export const ProductCharacteristics = () => {
-  return <h1>Тест</h1>;
+  return <div>Тест</div>;
 };
