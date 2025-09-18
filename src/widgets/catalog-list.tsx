@@ -10,7 +10,7 @@ import { CatalogSections } from './components/catalog-sections';
 
 const getCatalogData = async (path: string): Promise<CatalogApiResponse> => {
   // Construct the API path from the browser path
-  const apiPath = `https://litra-adm.workup.spb.ru/api${path}`;
+  const apiPath = process.env.NEXT_PUBLIC_API_URL + path;
   const response = await fetch(apiPath.endsWith('/') ? apiPath : `${apiPath}/`);
   if (!response.ok) {
     throw new Error('Network response was not ok');
@@ -20,6 +20,8 @@ const getCatalogData = async (path: string): Promise<CatalogApiResponse> => {
 
 export const CatalogList = () => {
   const pathname = usePathname();
+
+  console.log(pathname);
 
   // Use the pathname for the query key to distinguish between different section pages
   const queryKey = [
