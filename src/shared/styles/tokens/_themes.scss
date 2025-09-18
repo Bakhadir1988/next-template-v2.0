@@ -1,0 +1,70 @@
+// Светлая тема (по умолчанию)
+:root {
+  // Цвета
+  --color-primary: #007bff;
+  --color-primary-hover: #0056b3;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-info: #17a2b8;
+
+  // Фон
+  --color-background: #ffffff;
+  --color-background-secondary: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-surface-hover: #e9ecef;
+
+  // Текст
+  --color-text: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-muted: #868e96;
+  --color-text-inverse: #ffffff;
+
+  // Границы
+  --color-border: #dee2e6;
+  --color-border-focus: #007bff;
+
+  // Тени
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+
+  // Переходы
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+  --transition-slow: 0.5s ease-in-out;
+}
+
+// Темная тема
+[data-theme='dark'] {
+  // Цвета
+  --color-primary: #0d6efd;
+  --color-primary-hover: #0b5ed7;
+  --color-secondary: #6c757d;
+  --color-success: #198754;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-info: #0dcaf0;
+
+  // Фон
+  --color-background: #121212;
+  --color-background-secondary: #1e1e1e;
+  --color-surface: #1e1e1e;
+  --color-surface-hover: #2d2d2d;
+
+  // Текст
+  --color-text: #e9ecef;
+  --color-text-secondary: #adb5bd;
+  --color-text-muted: #6c757d;
+  --color-text-inverse: #212529;
+
+  // Границы
+  --color-border: #e5e5e5;
+  --color-border-focus: #0d6efd;
+
+  // Тени
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+}

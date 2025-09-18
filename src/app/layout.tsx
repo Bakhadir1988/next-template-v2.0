@@ -1,17 +1,32 @@
-import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import QueryProvider from '@/shared/lib/query-provider';
 
 import type { Metadata } from 'next';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
+import '../shared/styles/index.scss';
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const roboto = localFont({
+  src: [
+    {
+      path: '../shared/assets/fonts/Roboto-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../shared/assets/fonts/Roboto-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../shared/assets/fonts/Roboto-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-roboto',
+  display: 'swap',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -25,8 +40,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={roboto.variable}>
+      <body className={roboto.className}>
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

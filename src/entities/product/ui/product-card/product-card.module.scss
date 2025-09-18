@@ -1,0 +1,60 @@
+.root {
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-root);
+  padding: var(--spacing);
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+
+  img {
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    margin: 0 auto;
+    height: 100%;
+  }
+}
+
+.title {
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 50px;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.quantity {
+  &_button {
+  }
+
+  &_input {
+    max-width: 60px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+  }
+}
+
+.add_button {
+  flex: 1;
+}

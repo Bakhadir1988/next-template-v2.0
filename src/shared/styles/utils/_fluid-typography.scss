@@ -1,0 +1,22 @@
+@use 'sass:math';
+
+// Настраиваемые параметры
+$fluid-min-vw: 320;
+$fluid-max-vw: 1920;
+$fluid-container-width: $fluid-max-vw - $fluid-min-vw;
+
+// Упрощенные функции для fluid typography (только px)
+@function fluid-size($min-size, $max-size) {
+  // Извлекаем числовые значения (убираем единицы px)
+  $min-num: math.div($min-size, 1px);
+  $max-num: math.div($max-size, 1px);
+
+  // Рассчитываем разность размеров
+  $diff: $max-num - $min-num;
+
+  // Рассчитываем vw коэффициент
+  $vw: math.div($diff, $fluid-container-width) * 100;
+
+  // Возвращаем clamp
+  @return clamp(#{$min-size}, #{$min-size} + #{$vw}vw, #{$max-size});
+}

@@ -1,2 +1,1 @@
-export { ProductCard } from './ui/product-card/product-card';
-export type { TProduct } from './model/product.type';
+export type { Product, Chars, SectionsObjects } from './model/product.type';

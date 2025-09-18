@@ -1,10 +1,11 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { CatalogApiResponse } from '@/entities/catalog/catalog.type';
+import { ProductCard } from '@/entities/product/ui/product-card/product-card';
+import { TagList } from '@/widgets/tag-list';
 
 import { CatalogSections } from './components/catalog-sections';
 
@@ -21,17 +22,10 @@ const getCatalogData = async (path: string): Promise<CatalogApiResponse> => {
 export const CatalogList = () => {
   const pathname = usePathname();
 
-  console.log(pathname);
-
-  // Use the pathname for the query key to distinguish between different section pages
-  const queryKey = [
-    'catalogList',
-    pathname.endsWith('/') ? pathname : `${pathname}/`,
-  ];
-
   const { data, isLoading, isError } = useQuery<CatalogApiResponse>({
-    queryKey: queryKey,
-    queryFn: () => getCatalogData(pathname),
+    queryKey: ['catalogList', pathname],
+    queryFn: () => getCatalogData(pathname!),
+    enabled: !!pathname,
   });
 
   if (isLoading) {
@@ -47,21 +41,29 @@ export const CatalogList = () => {
   }
 
   return (
-    <section>
+    <section className="container">
       <h1>{data.meta.h1}</h1>
-
-      <h2>Разделы</h2>
       <CatalogSections sections={data.sections} />
+      <TagList tags={data.upper_tags} title="Верхние теги" />
 
-      <h2>Товары</h2>
-      <ul>
-        {data.items.map((item) => (
-          <li key={item.item_id}>
-            <Link href={item.url}>{item.title}</Link>
-            <p>{item.price} &#8381;</p>
-          </li>
-        ))}
-      </ul>
+      {data.items.length > 0 && (
+        <>
+          <h2>Товары</h2>
+          <div
+            style={{
+              display: 'grid',
+              gap: '20px',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            }}
+          >
+            {data.items.map((item) => (
+              <ProductCard key={item.item_id} product={item} />
+            ))}
+          </div>
+        </>
+      )}
+
+      <TagList tags={data.lower_tags} title="Нижние теги" />
     </section>
   );
 };

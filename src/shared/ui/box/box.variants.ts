@@ -1,0 +1,93 @@
+import { cva } from 'class-variance-authority';
+
+import styles from './box.module.scss';
+
+export const boxVariants = cva(styles.root, {
+  variants: {
+    display: {
+      flex: styles.flex,
+      grid: styles.grid,
+    },
+    flexDirection: {
+      row: styles.flex_direction_row,
+      column: styles.flex_direction_column,
+      rowReverse: styles.flex_direction_row_reverse,
+      columnReverse: styles.flex_direction_column_reverse,
+    },
+    flexWrap: {
+      nowrap: styles.flex_wrap_nowrap,
+      wrap: styles.flex_wrap_wrap,
+      wrapReverse: styles.flex_wrap_wrap_reverse,
+    },
+    gap: {
+      spacing: styles.gap_spacing,
+      sm_offset: styles.gap_sm_offset,
+      base_offset: styles.gap_base_offset,
+      clamp_offset: styles.gap_clamp_offset,
+      section_offset_vertical: styles.gap_section_offset_vertical,
+    },
+    rowGap: {
+      spacing: styles.row_gap_spacing,
+      sm_offset: styles.row_gap_sm_offset,
+      base_offset: styles.row_gap_base_offset,
+      clamp_offset: styles.row_gap_clamp_offset,
+      section_offset_vertical: styles.row_gap_section_offset_vertical,
+    },
+    columnGap: {
+      spacing: styles.column_gap_spacing,
+      sm_offset: styles.column_gap_sm_offset,
+      base_offset: styles.column_gap_base_offset,
+      clamp_offset: styles.column_gap_clamp_offset,
+      section_offset_vertical: styles.column_gap_section_offset_vertical,
+    },
+    align: {
+      start: styles.align_start,
+      center: styles.align_center,
+      end: styles.align_end,
+      stretch: styles.align_stretch,
+      baseline: styles.align_baseline,
+    },
+    justify: {
+      start: styles.justify_start,
+      center: styles.justify_center,
+      end: styles.justify_end,
+      between: styles.justify_between,
+      around: styles.justify_around,
+      evenly: styles.justify_evenly,
+    },
+    columns: {
+      1: styles.grid_columns_1,
+      2: styles.grid_columns_2,
+      3: styles.grid_columns_3,
+      4: styles.grid_columns_4,
+      5: styles.grid_columns_5,
+      6: styles.grid_columns_6,
+      7: styles.grid_columns_7,
+      8: styles.grid_columns_8,
+      9: styles.grid_columns_9,
+      10: styles.grid_columns_10,
+      11: styles.grid_columns_11,
+      12: styles.grid_columns_12,
+      auto: styles.grid_columns_auto,
+      repeat: styles.grid_columns_repeat,
+      fr: styles.grid_columns_fr,
+    },
+    rows: {
+      1: styles.grid_rows_1,
+      2: styles.grid_rows_2,
+      3: styles.grid_rows_3,
+      4: styles.grid_rows_4,
+      5: styles.grid_rows_5,
+      6: styles.grid_rows_6,
+      7: styles.grid_rows_7,
+      8: styles.grid_rows_8,
+      9: styles.grid_rows_9,
+      10: styles.grid_rows_10,
+      11: styles.grid_rows_11,
+      12: styles.grid_rows_12,
+      auto: styles.grid_rows_auto,
+      repeat: styles.grid_rows_repeat,
+      fr: styles.grid_rows_fr,
+    },
+  },
+});

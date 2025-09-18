@@ -1,0 +1,13 @@
+@use '@/shared/styles/utils/functions' as *;
+
+$radius-root: rem(4);
+$radius-sm: rem(2);
+$radius-md: rem(4);
+$radius-lg: rem(6);
+
+:root {
+  --radius-root: #{$radius-root};
+  --radius-sm: #{$radius-sm};
+  --radius-md: #{$radius-md};
+  --radius-lg: #{$radius-lg};
+}
