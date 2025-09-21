@@ -5,7 +5,8 @@ import {
 } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 
-import { getCatalogData, getCatalogDataBySlug } from '@/shared/api';
+import { getCatalogDataBySlug } from '@/shared/api';
+import { API_PATHS } from '@/shared/config/site.config';
 import { CatalogDetailWidget, CatalogListWidget } from '@/widgets';
 
 // Преобразует URL в массив сегментов (slug) для динамических маршрутов Next.js.
@@ -17,16 +18,45 @@ const getSlugArrayFromUrl = (url: string) => {
 };
 
 // Функция Next.js для генерации статических путей во время сборки.
+const getAllPaths = async (initialUrl: string): Promise<string[]> => {
+  const processedUrls = new Set<string>();
+  const pathsToFetch = [initialUrl];
+  const allSlugs: string[] = [];
+
+  while (pathsToFetch.length > 0) {
+    const currentUrl = pathsToFetch.shift()!;
+    if (processedUrls.has(currentUrl)) {
+      continue;
+    }
+    processedUrls.add(currentUrl);
+
+    try {
+      const data = await getCatalogDataBySlug(currentUrl);
+
+      if ('items' in data) {
+        // It's a CatalogApiResponse
+        data.items.forEach((item) => allSlugs.push(item.url));
+        data.sections.forEach((section) => {
+          allSlugs.push(section.url); // Add section URL itself
+          pathsToFetch.push(section.url); // And fetch its children
+        });
+      }
+    } catch (error) {
+      console.error(`Error fetching data for URL: ${currentUrl}`, error);
+    }
+  }
+
+  return allSlugs;
+};
+
 export async function generateStaticParams() {
   try {
-    const data = await getCatalogData();
+    const allPaths = await getAllPaths(API_PATHS.CATALOG);
+    const uniquePaths = [...new Set(allPaths)]; // Ensure uniqueness
 
-    const slugs = [
-      ...data.items.map((item) => ({ slug: getSlugArrayFromUrl(item.url) })),
-      ...data.sections.map((section) => ({
-        slug: getSlugArrayFromUrl(section.url),
-      })),
-    ];
+    const slugs = uniquePaths.map((path) => ({
+      slug: getSlugArrayFromUrl(path),
+    }));
 
     console.log(`Generated ${slugs.length} static catalog paths`);
     return slugs;
@@ -36,32 +66,23 @@ export async function generateStaticParams() {
   }
 }
 
-// Получает данные для конкретной страницы, используя новый API-слой
-
 const getPageData = async (slug: string) => {
-  let response;
   try {
-    return await getCatalogDataBySlug(slug);
-  } catch (error) {
-    // Ловим только ошибки сети (если fetch не удался)
-    console.error('Fetch error in getPageData:', error);
-    throw new Error(`Network error when fetching data for slug: ${slug}`);
+    // Filter out requests for common file extensions to avoid API calls
+    if (slug.match(/\.(js|map|css|png|jpg|jpeg|gif|svg|ico)$/)) {
+      notFound();
+    }
+    const data = await getCatalogDataBySlug(slug);
+    return data;
+  } catch (error: unknown) {
+    // If the API returns a 404, trigger the notFound() page
+    if (error instanceof Error && error.message.includes('404')) {
+      notFound();
+    }
+    // For other errors, log them and throw a generic error
+    console.error(`Fetch error in getPageData for slug: ${slug}`, error);
+    throw new Error(`Failed to fetch data for slug: ${slug}`);
   }
-
-  // Проверяем статус ответа уже после try-catch
-  if (response.status === 404) {
-    // Вызываем notFound, если страница не найдена.
-    // Это не будет поймано в catch выше.
-    notFound();
-  }
-
-  if (!response.ok) {
-    // Для всех других ошибок (500, 401 и т.д.) выбрасываем ошибку,
-    // чтобы показать страницу с ошибкой сервера.
-    throw new Error(`API returned non-OK status: ${response.status}`);
-  }
-
-  return response.json();
 };
 
 export default async function DynamicCatalogPage(props: {
@@ -71,8 +92,10 @@ export default async function DynamicCatalogPage(props: {
   const queryClient = new QueryClient();
   const slugPath = params.slug.join('/');
 
-  const pageData = await getPageData(slugPath);
+  const pageData = await getPageData(`catalog/${slugPath}/`);
+  console.log('pageData', pageData);
 
+  // // Страница раздела
   const isSectionPage = pageData.hasOwnProperty('items');
 
   if (isSectionPage) {
@@ -87,6 +110,7 @@ export default async function DynamicCatalogPage(props: {
     );
   }
 
+  // Детальная страница товара
   await queryClient.prefetchQuery({
     queryKey: ['catalogDetail', slugPath],
     queryFn: () => pageData,

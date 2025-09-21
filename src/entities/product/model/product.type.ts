@@ -1,20 +1,20 @@
 import { FaqItem } from '@/entities/faq';
 import { BreadcrumbItem } from '@/shared/types';
 
-export interface Chars {
+export type Chars = {
   alcohol: string | null;
   density: string | null;
   class: string | null;
   type: string | null;
   vendor: string | null;
-}
+};
 
-export interface SectionsObjects {
+export type SectionsObjects = {
   faq: Record<string, FaqItem>;
-  related: Record<string, Product>;
-}
+  related: Record<string, ProductType>;
+};
 
-export interface Product {
+export type ProductType = {
   item_id: string;
   title: string;
   price: string | null;
@@ -35,4 +35,4 @@ export interface Product {
   discount: string | null;
   imgs: string[];
   enable: string | null;
-}
+};

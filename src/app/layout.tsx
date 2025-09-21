@@ -42,7 +42,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto.variable}>
       <body className={roboto.className}>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <div className={'container'}>{children}</div>
+        </QueryProvider>
       </body>
     </html>
   );

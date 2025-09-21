@@ -1,0 +1,90 @@
+.root {
+  margin: 0;
+}
+
+.h1 {
+  font-size: var(--font-size-h1);
+}
+
+.h2 {
+  font-size: var(--font-size-h2);
+}
+
+.h3 {
+  font-size: var(--font-size-h3);
+}
+
+.h4 {
+  font-size: var(--font-size-h4);
+}
+
+.h5 {
+  font-size: var(--font-size-h5);
+}
+
+.h6 {
+  font-size: var(--font-size-h6);
+}
+
+.display {
+  font-size: var(--font-size-display);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: var(--font-size-subtitle);
+  line-height: 1.4;
+  font-weight: var(--font-weight-medium);
+}
+
+/* Выравнивание */
+.align_left {
+  text-align: left;
+}
+.align_center {
+  text-align: center;
+}
+.align_right {
+  text-align: right;
+}
+
+/* Толщина */
+.weight_normal {
+  font-weight: var(--font-weight-normal);
+}
+.weight_medium {
+  font-weight: var(--font-weight-medium);
+}
+.weight_bold {
+  font-weight: var(--font-weight-bold);
+}
+
+/* Цвета */
+.color_default {
+  color: var(--color-text);
+}
+.color_muted {
+  color: var(--color-text-muted);
+}
+.color_primary {
+  color: var(--color-primary);
+}
+.color_secondary {
+  color: var(--color-text-secondary);
+}
+.color_success {
+  color: var(--color-success);
+}
+.color_warning {
+  color: var(--color-warning);
+}
+.color_danger {
+  color: var(--color-danger);
+}
+.color_info {
+  color: var(--color-info);
+}
+.color_inverse {
+  color: var(--color-text-inverse);
+}

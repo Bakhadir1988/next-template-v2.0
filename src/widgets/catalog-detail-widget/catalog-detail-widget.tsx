@@ -2,9 +2,9 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { Product } from '@/entities/product';
+import { ProductType } from '@/entities/product';
 
-const getProductData = async (slug: string): Promise<Product> => {
+const getProductData = async (slug: string): Promise<ProductType> => {
   const response = await fetch(
     `https://litra-adm.workup.spb.ru/api/catalog/${slug}/`,
   );
@@ -15,7 +15,7 @@ const getProductData = async (slug: string): Promise<Product> => {
 };
 
 export const CatalogDetailWidget = ({ slug }: { slug: string }) => {
-  const { data, isLoading, isError } = useQuery<Product>({
+  const { data, isLoading, isError } = useQuery<ProductType>({
     queryKey: ['catalogDetail', slug],
     queryFn: () => getProductData(slug),
   });

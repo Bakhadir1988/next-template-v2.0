@@ -1,33 +1,38 @@
 import { CatalogApiResponse } from '@/entities/catalog/model/catalog.type';
-import { Product } from '@/entities/product';
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://litra-adm.workup.spb.ru/';
-
-export const getCatalogData = async (): Promise<CatalogApiResponse> => {
-  const endpoint = 'catalog/';
-  // Убрана опция { cache: 'no-store' }
-  const response = await fetch(`${API_BASE_URL}${endpoint}`);
-
-  if (!response.ok) {
-    // Бросаем стандартную ошибку со статусом в тексте
-    throw new Error(`API Error: ${response.status}`);
-  }
-
-  return (await response.json()) as CatalogApiResponse;
-};
+import { ProductType } from '@/entities/product';
+import { API_BASE_URL } from '@/shared/config/site.config';
 
 export const getCatalogDataBySlug = async (
   slug: string,
-): Promise<Product | CatalogApiResponse> => {
-  const endpoint = `catalog/${slug}/`;
-  // Убрана опция { cache: 'no-store' }
-  const response = await fetch(`${API_BASE_URL}${endpoint}`);
+): Promise<ProductType | CatalogApiResponse> => {
+  const endpoint = slug;
+  // Safely construct the URL to avoid double slashes
+  const url = new URL(
+    endpoint.startsWith('/') ? endpoint.substring(1) : endpoint,
+    API_BASE_URL,
+  );
+  const response = await fetch(url);
 
   if (!response.ok) {
     // Бросаем стандартную ошибку со статусом в тексте
     throw new Error(`API Error: ${response.status}`);
   }
 
-  return (await response.json()) as Product | CatalogApiResponse;
+  console.log('slug', slug);
+  console.log('endpoint', endpoint);
+
+  return (await response.json()) as ProductType | CatalogApiResponse;
+};
+
+export const postCatalogData = async (formData: FormData) => {
+  const response = await fetch(API_BASE_URL, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status}`);
+  }
+
+  return response;
 };

@@ -3,7 +3,7 @@
 import { useProductActions } from '@/features/product/use-product-actions';
 import { Box } from '@/shared/ui/box';
 
-import { Product } from '../../model/product.type';
+import { ProductType } from '../../model/product.type';
 
 import { ProductCharacteristics } from './components/product-characteristics';
 import { ProductImage } from './components/product-image';
@@ -12,7 +12,7 @@ import { ProductPurchase } from './components/product-purchase';
 import styles from './product-card.module.scss';
 
 type ProductCardProps = {
-  product: Product;
+  product: ProductType;
 };
 
 export const ProductCard = ({ product }: ProductCardProps) => {

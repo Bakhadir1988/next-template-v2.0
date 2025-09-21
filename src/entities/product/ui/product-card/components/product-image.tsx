@@ -1,13 +1,13 @@
 import { EyeOpenIcon, HeartIcon, ShuffleIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 
-import { Button } from '@/shared/ui';
+import { Box, Button } from '@/shared/ui';
 
-import { Product } from '../../../model/product.type';
+import { ProductType } from '../../../model/product.type';
 import styles from '../product-card.module.scss';
 
 type ProductImageProps = {
-  product: Product;
+  product: ProductType;
   onFavorite: () => void;
   onCompare: () => void;
   onQuickView: () => void;
@@ -31,10 +31,15 @@ export const ProductImage = ({
         height={350}
         priority
       />
-      <div className={styles['quick-actions']}>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'spacing'}
+        className={styles.actions}
+      >
         <Button
           variant={'secondary'}
-          className={styles['action-button']}
+          className={styles.action_button}
           title="Добавить в избранное"
           onClick={onFavorite}
         >
@@ -42,7 +47,7 @@ export const ProductImage = ({
         </Button>
         <Button
           variant={'secondary'}
-          className={styles['action-button']}
+          className={styles.action_button}
           title="Сравнить"
           onClick={onCompare}
         >
@@ -50,13 +55,13 @@ export const ProductImage = ({
         </Button>
         <Button
           variant={'secondary'}
-          className={styles['action-button']}
+          className={styles.action_button}
           title="Быстрый просмотр"
           onClick={onQuickView}
         >
           <EyeOpenIcon />
         </Button>
-      </div>
+      </Box>
     </div>
   );
 };

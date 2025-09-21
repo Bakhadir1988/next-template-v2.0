@@ -20,6 +20,25 @@
   }
 }
 
+.actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.action_button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  padding: 0;
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
+}
+
 .title {
   text-decoration: none;
   font-weight: var(--font-weight-semibold);
@@ -45,7 +64,11 @@
 }
 
 .quantity {
+  gap: 5px;
+
   &_button {
+    width: 40px;
+    height: 40px;
   }
 
   &_input {

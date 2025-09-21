@@ -1,0 +1,68 @@
+.padding_sm {
+  padding-block: 8px;
+}
+
+.padding_md {
+  padding-block: var(--base-offset);
+}
+
+.padding_lg {
+  padding-block: 24px;
+}
+
+.padding_xl {
+  padding-block: 32px;
+}
+
+.padding_none {
+  padding: 0;
+}
+
+/* Варианты фона */
+.bg_default {
+  background-color: var(--color-background);
+}
+.bg_surface {
+  background-color: var(--color-surface);
+}
+.bg_secondary {
+  background-color: var(--color-background-secondary);
+}
+.bg_primary {
+  background-color: var(--color-primary);
+}
+.bg_success {
+  background-color: var(--color-success);
+}
+.bg_warning {
+  background-color: var(--color-warning);
+}
+.bg_danger {
+  background-color: var(--color-danger);
+}
+.bg_info {
+  background-color: var(--color-info);
+}
+
+/* Варианты границ */
+.border_default {
+  border: 1px solid var(--color-border);
+}
+.border_primary {
+  border: 1px solid var(--color-primary);
+}
+.border_focus {
+  border: 1px solid var(--color-border-focus);
+}
+.border_success {
+  border: 1px solid var(--color-success);
+}
+.border_warning {
+  border: 1px solid var(--color-warning);
+}
+.border_danger {
+  border: 1px solid var(--color-danger);
+}
+.border_info {
+  border: 1px solid var(--color-info);
+}

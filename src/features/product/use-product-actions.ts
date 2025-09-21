@@ -1,6 +1,6 @@
-import { Product } from '@/entities/product/model/product.type';
+import { ProductType } from '@/entities/product/model/product.type';
 
-export const useProductActions = (product: Product) => {
+export const useProductActions = (product: ProductType) => {
   const handleAddToFavorites = () => {
     console.log('Add to favorites:', product);
     // Future logic for adding to favorites state/API

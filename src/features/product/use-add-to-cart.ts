@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import { Product } from '@/entities/product';
+import { ProductType } from '@/entities/product';
 
-export const useAddToCart = (productId: Product) => {
+export const useAddToCart = (productId: ProductType) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
 

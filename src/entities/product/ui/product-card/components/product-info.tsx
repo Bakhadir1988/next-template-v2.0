@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
-import { Product } from '../../../model/product.type';
+import { ProductType } from '../../../model/product.type';
 import styles from '../product-card.module.scss';
 
 type ProductInfoProps = {
-  product: Product;
+  product: ProductType;
 };
 
 export const ProductInfo = ({ product }: ProductInfoProps) => {

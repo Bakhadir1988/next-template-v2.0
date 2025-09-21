@@ -1,31 +1,67 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
 import { CatalogApiResponse } from '@/entities/catalog/model/catalog.type';
-import { ProductCard } from '@/entities/product/ui/product-card/product-card';
+import { ProductList } from '@/entities/product';
 import { TagList } from '@/entities/tag';
+import { getCatalogDataBySlug, postCatalogData } from '@/shared/api';
+import { Section, Title } from '@/shared/ui';
+import { Pagination } from '@/shared/ui/pagination/pagination';
 
 import { CatalogSections } from '../../entities/catalog/ui/catalog-sections';
 
-const getCatalogData = async (path: string): Promise<CatalogApiResponse> => {
-  // Construct the API path from the browser path
-  const apiPath = process.env.NEXT_PUBLIC_API_URL + path;
-  const response = await fetch(apiPath.endsWith('/') ? apiPath : `${apiPath}/`);
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-};
-
 export const CatalogListWidget = () => {
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
+  // Extract slug from pathname for the API call
+  const slug = pathname.replace(/^\/catalog\//, '').replace(/\/$/, '');
+
+  // 1. Initial data fetch with useQuery using the shared API function
   const { data, isLoading, isError } = useQuery<CatalogApiResponse>({
-    queryKey: ['catalogList', pathname],
-    queryFn: () => getCatalogData(pathname!),
-    enabled: !!pathname,
+    queryKey: ['catalogList', pathname], // The key for this page's data
+    queryFn: () =>
+      getCatalogDataBySlug(pathname) as Promise<CatalogApiResponse>,
+    enabled: !!slug,
+  });
+
+  // 2. Mutation for subsequent page fetches via POST
+  const { mutate: changePage } = useMutation({
+    mutationFn: async ({
+      sectionId,
+      page,
+    }: {
+      sectionId: string;
+      page: number;
+    }) => {
+      const form = new FormData();
+      form.append('comp', 'catblock');
+      form.append('page', page.toString());
+      form.append('sect_id', sectionId);
+      form.append('template', 'catalog');
+      const response = await postCatalogData(form);
+      // We need to parse the JSON from the response
+      return response.json();
+    },
+    onSuccess: (newData) => {
+      // 3. Manually update the query cache with the new page data
+      queryClient.setQueryData(
+        ['catalogList', pathname], // Use the correct query key
+        (oldData: CatalogApiResponse | undefined) => {
+          if (!oldData) return;
+          return {
+            ...oldData,
+            items: newData.items || [], // Update items
+            pagi: newData.pagi || oldData.pagi, // Update pagination info
+          };
+        },
+      );
+    },
+    onError: (error) => {
+      console.error('Failed to change page', error);
+    },
   });
 
   if (isLoading) {
@@ -40,30 +76,38 @@ export const CatalogListWidget = () => {
     return <div>No data</div>;
   }
 
-  return (
-    <section className="container">
-      <h1>{data.meta.h1}</h1>
-      <CatalogSections sections={data.sections} />
-      <TagList tags={data.upper_tags} title="Верхние теги" />
+  const handlePageChange = (page: number) => {
+    const sectionId = data?.section?.item_id;
+    if (sectionId) {
+      changePage({ sectionId, page });
+    }
+  };
 
-      {data.items.length > 0 && (
-        <>
-          <h2>Товары</h2>
-          <div
-            style={{
-              display: 'grid',
-              gap: '20px',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            }}
-          >
-            {data.items.map((item) => (
-              <ProductCard key={item.item_id} product={item} />
-            ))}
-          </div>
-        </>
+  return (
+    <>
+      <Title as={'h1'}>{data.section.title}</Title>
+      <CatalogSections sections={data.sections} />
+      {data.upper_tags.length > 0 && (
+        <TagList tags={data.upper_tags} title="Верхние теги" />
       )}
 
-      <TagList tags={data.lower_tags} title="Нижние теги" />
-    </section>
+      <Section>
+        {data.items.length > 0 && (
+          <ProductList items={data.items} title="Товары" />
+        )}
+
+        {data.pagi && data.pagi.total_pages > 1 && (
+          <Pagination
+            currentPage={Number(data.pagi.current_page)}
+            totalPages={data.pagi.total_pages}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </Section>
+
+      {data.lower_tags.length > 0 && (
+        <TagList tags={data.lower_tags} title="Нижние теги" />
+      )}
+    </>
   );
 };
