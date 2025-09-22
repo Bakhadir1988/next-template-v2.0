@@ -1,6 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { FilterType } from '@/entities/filter/model/filter.type';
 import { Button } from '@/shared/ui/button';
 import { Skeleton } from '@/shared/ui/skeleton/skeleton';
 
@@ -12,20 +13,46 @@ import styles from './filter-widget.module.scss';
 
 interface FilterWidgetProps {
   sectId: string;
+  onApplyFilters: (filters: Record<string, FilterValueType>) => void;
 }
 
-export const FilterWidget = ({ sectId }: FilterWidgetProps) => {
+export const FilterWidget = ({ sectId, onApplyFilters }: FilterWidgetProps) => {
   const { data: filters, isLoading, isError } = useFilter(sectId);
   const [filterValues, setFilterValues] = useState<
     Record<string, FilterValueType>
   >({});
 
-  const handleFilterChange = (key: string, value: FilterValueType) => {
-    setFilterValues((prev) => ({ ...prev, [key]: value }));
+  // Debounce for sliders
+  const [debouncedSliderValues, setDebouncedSliderValues] = useState({});
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onApplyFilters(filterValues);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [debouncedSliderValues]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleFilterChange = (
+    key: string,
+    value: FilterValueType,
+    type: FilterType,
+  ) => {
+    const newValues = { ...filterValues, [key]: value };
+    setFilterValues(newValues);
+
+    if (['PRICE', 'FLOAT', 'INTEGER'].includes(type)) {
+      setDebouncedSliderValues(newValues);
+    } else {
+      onApplyFilters(newValues);
+    }
   };
 
   const handleClearAll = () => {
     setFilterValues({});
+    onApplyFilters({});
   };
 
   const hasActiveFilters = Object.values(filterValues).some((value) => {
@@ -58,12 +85,16 @@ export const FilterWidget = ({ sectId }: FilterWidgetProps) => {
           <FilterItem
             key={filter.prop_id}
             filter={filter}
-            value={filterValues[filter.tpl_key]}
-            onChange={(value) => handleFilterChange(filter.tpl_key, value)}
+            value={filterValues[filter.prop_id]}
+            onChange={(value) =>
+              handleFilterChange(filter.prop_id, value, filter.type)
+            }
           />
         ))}
         {hasActiveFilters && (
-          <Button onClick={handleClearAll}>Очистить все</Button>
+          <Button variant={'link'} onClick={handleClearAll}>
+            Очистить все
+          </Button>
         )}
       </div>
     </div>

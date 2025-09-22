@@ -22,25 +22,25 @@ export const EnumFilter = ({
 }: EnumFilterProps) => {
   const enumFilter = filter.filter as EnumFilterType;
 
-  const handleCheckedChange = (checked: boolean, label: string) => {
+  const handleCheckedChange = (checked: boolean, itemId: string) => {
     if (checked) {
-      onChange([...value, label]);
+      onChange([...value, itemId]);
     } else {
-      onChange(value.filter((v) => v !== label));
+      onChange(value.filter((v) => v !== itemId));
     }
   };
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.list}>
-        {Object.values(enumFilter).map((filterValue) => (
+        {Object.entries(enumFilter).map(([itemId, filterValue]) => (
           <Checkbox
-            key={filterValue.label}
-            id={filterValue.label}
+            key={itemId}
+            id={itemId}
             label={`${filterValue.label} (${filterValue.current_count})`}
-            checked={value.includes(filterValue.label!)}
+            checked={value.includes(itemId)}
             onCheckedChange={(checked) =>
-              handleCheckedChange(Boolean(checked), filterValue.label!)
+              handleCheckedChange(Boolean(checked), itemId)
             }
           />
         ))}
