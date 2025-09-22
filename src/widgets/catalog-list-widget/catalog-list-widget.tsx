@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { CatalogApiResponse } from '@/entities/catalog/model/catalog.type';
 import { ProductList } from '@/entities/product';
 import { TagList } from '@/entities/tag';
+import { FilterWidget } from '@/features/filter/ui/filter-widget/filter-widget';
 import { getCatalogDataBySlug, postCatalogData } from '@/shared/api';
 import { Section, Title } from '@/shared/ui';
 import { Pagination } from '@/shared/ui/pagination/pagination';
@@ -92,9 +93,12 @@ export const CatalogListWidget = () => {
       )}
 
       <Section>
-        {data.items.length > 0 && (
-          <ProductList items={data.items} title="Товары" />
-        )}
+        <div>
+          {data.section.item_id && (
+            <FilterWidget sectId={data.section.item_id} />
+          )}
+        </div>
+        {data.items.length > 0 && <ProductList items={data.items} />}
 
         {data.pagi && data.pagi.total_pages > 1 && (
           <Pagination

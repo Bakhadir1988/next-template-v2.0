@@ -15,11 +15,7 @@ type ProductListProps = {
 export const ProductList = ({ items, title }: ProductListProps) => {
   return (
     <>
-      <TitleBlock
-        tag="h2"
-        title={title}
-        description="Описание раздела с товарами"
-      />
+      <TitleBlock tag="h2" title={title} />
       <Box
         display={'grid'}
         columns={4}

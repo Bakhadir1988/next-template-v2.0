@@ -1,0 +1,52 @@
+.root {
+  all: unset;
+  cursor: pointer;
+  width: 44px;
+  height: 24px;
+  background-color: var(--color-border);
+  border-radius: 9999px;
+  position: relative;
+  transition: background-color 0.2s;
+
+  &[data-state='checked'] {
+    background-color: var(--color-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.thumb {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 9999px;
+  transition: transform 0.2s;
+  transform: translateX(2px);
+  will-change: transform;
+
+  &[data-state='checked'] {
+    transform: translateX(22px);
+  }
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 1;
+  user-select: none;
+  color: var(--color-text);
+}
