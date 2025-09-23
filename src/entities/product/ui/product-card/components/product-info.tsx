@@ -9,7 +9,7 @@ type ProductInfoProps = {
 
 export const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
-    <Link href={product.url} className={styles.title}>
+    <Link href={product.url || ''} className={styles.title}>
       {product.title}
     </Link>
   );

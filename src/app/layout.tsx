@@ -1,6 +1,9 @@
 import localFont from 'next/font/local';
 
+import { FavoritesProvider } from '@/features/product/favorites-provider';
 import QueryProvider from '@/shared/lib/query-provider';
+import { SessionProvider } from '@/shared/lib/session-provider';
+import { Header } from '@/widgets';
 
 import type { Metadata } from 'next';
 
@@ -43,7 +46,11 @@ export default function RootLayout({
     <html lang="en" className={roboto.variable}>
       <body className={roboto.className}>
         <QueryProvider>
-          <div className={'container'}>{children}</div>
+          <FavoritesProvider>
+            <SessionProvider />
+            <Header />
+            <main className={'container'}>{children}</main>
+          </FavoritesProvider>
         </QueryProvider>
       </body>
     </html>

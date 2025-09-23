@@ -1,23 +1,17 @@
-import { ProductType } from '@/entities/product/model/product.type';
+import { ProductType } from '@/entities/product';
 
 export const useProductActions = (product: ProductType) => {
-  const handleAddToFavorites = () => {
-    console.log('Add to favorites:', product);
-    // Future logic for adding to favorites state/API
-  };
-
   const handleAddToComparison = () => {
-    console.log('Add to comparison:', product);
+    console.log('Add to comparison:', product.item_id);
     // Future logic for adding to comparison state/API
   };
 
   const handleQuickView = () => {
-    console.log('Quick view:', product);
+    console.log('Quick view:', product.item_id);
     // Future logic for opening quick view modal
   };
 
   return {
-    handleAddToFavorites,
     handleAddToComparison,
     handleQuickView,
   };

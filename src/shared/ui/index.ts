@@ -4,4 +4,5 @@ export { Container } from './container';
 export { Pagination } from './pagination';
 export { Section } from './section';
 export { Title } from './title';
+export { Skeleton } from './skeleton/skeleton';
 export { TitleBlock } from './title-block';

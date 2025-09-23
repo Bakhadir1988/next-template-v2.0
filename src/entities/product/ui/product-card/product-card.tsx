@@ -1,10 +1,10 @@
 'use client';
 
-import { useProductActions } from '@/features/product/use-product-actions';
 import { Box } from '@/shared/ui/box';
 
 import { ProductType } from '../../model/product.type';
 
+import { ProductActions } from './components/product-actions';
 import { ProductCharacteristics } from './components/product-characteristics';
 import { ProductImage } from './components/product-image';
 import { ProductInfo } from './components/product-info';
@@ -16,9 +16,6 @@ type ProductCardProps = {
 };
 
 export const ProductCard = ({ product }: ProductCardProps) => {
-  const { handleAddToFavorites, handleAddToComparison, handleQuickView } =
-    useProductActions(product);
-
   return (
     <Box
       display={'flex'}
@@ -26,12 +23,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       gap={'sm_offset'}
       className={styles.root}
     >
-      <ProductImage
-        product={product}
-        onFavorite={handleAddToFavorites}
-        onCompare={handleAddToComparison}
-        onQuickView={handleQuickView}
-      />
+      <div className={styles.image}>
+        <ProductImage images={product.imgs} alt={product.title} />
+        <ProductActions product={product} />
+      </div>
       <Box
         display={'flex'}
         flexDirection={'column'}
