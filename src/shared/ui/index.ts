@@ -6,3 +6,4 @@ export { Section } from './section';
 export { Title } from './title';
 export { Skeleton } from './skeleton/skeleton';
 export { TitleBlock } from './title-block';
+export { Dialog } from './dialog';

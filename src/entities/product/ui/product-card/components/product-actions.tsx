@@ -4,9 +4,9 @@ import { EyeOpenIcon, HeartIcon, LayersIcon } from '@radix-ui/react-icons';
 import { clsx } from 'clsx';
 
 import { ProductType } from '@/entities/product';
+import { ProductQuickViewModal } from '@/features/product/product-quick-view-modal/product-quick-view-modal';
 import { useAddToCompare } from '@/features/product/use-add-to-compare';
 import { useAddToFavorites } from '@/features/product/use-add-to-favorites';
-import { useProductActions } from '@/features/product/use-product-actions';
 import { Box, Button } from '@/shared/ui';
 
 import styles from '../product-card.module.scss';
@@ -16,8 +16,6 @@ type ProductActionsProps = {
 };
 
 export const ProductActions = ({ product }: ProductActionsProps) => {
-  const { handleQuickView } = useProductActions(product);
-
   // Передаем весь объект product в хук
   const { isFavorite, toggleFavorite, isLoading } = useAddToFavorites({
     product,
@@ -57,14 +55,16 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
       >
         <LayersIcon />
       </Button>
-      <Button
-        variant={'secondary'}
-        className={styles.action_button}
-        title="Быстрый просмотр"
-        onClick={handleQuickView}
-      >
-        <EyeOpenIcon />
-      </Button>
+
+      <ProductQuickViewModal product={product}>
+        <Button
+          variant={'secondary'}
+          className={styles.action_button}
+          title="Быстрый просмотр"
+        >
+          <EyeOpenIcon />
+        </Button>
+      </ProductQuickViewModal>
     </Box>
   );
 };
