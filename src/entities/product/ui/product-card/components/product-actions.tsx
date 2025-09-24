@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-
-import { EyeOpenIcon, HeartIcon, ShuffleIcon } from '@radix-ui/react-icons';
+import { EyeOpenIcon, HeartIcon, LayersIcon } from '@radix-ui/react-icons';
 import { clsx } from 'clsx';
 
 import { ProductType } from '@/entities/product';
+import { useAddToCompare } from '@/features/product/use-add-to-compare';
 import { useAddToFavorites } from '@/features/product/use-add-to-favorites';
 import { useProductActions } from '@/features/product/use-product-actions';
 import { Box, Button } from '@/shared/ui';
@@ -17,19 +16,16 @@ type ProductActionsProps = {
 };
 
 export const ProductActions = ({ product }: ProductActionsProps) => {
-  const { handleAddToComparison, handleQuickView } = useProductActions(product);
+  const { handleQuickView } = useProductActions(product);
 
   // Передаем весь объект product в хук
   const { isFavorite, toggleFavorite, isLoading } = useAddToFavorites({
     product,
   });
 
-  const [isComparison, setIsComparison] = useState(false);
-
-  const onCompare = () => {
-    handleAddToComparison();
-    setIsComparison(!isComparison);
-  };
+  const { isCompare, toggleCompare } = useAddToCompare({
+    product,
+  });
 
   return (
     <Box
@@ -54,12 +50,12 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
         variant={'secondary'}
         className={clsx(
           styles.action_button,
-          isComparison && styles.action_button_active,
+          isCompare && styles.action_button_active,
         )}
-        title={isComparison ? 'Убрать из сравнения' : 'Добавить в сравнение'}
-        onClick={onCompare}
+        title={isCompare ? 'Убрать из сравнения' : 'Добавить в сравнение'}
+        onClick={toggleCompare}
       >
-        <ShuffleIcon />
+        <LayersIcon />
       </Button>
       <Button
         variant={'secondary'}

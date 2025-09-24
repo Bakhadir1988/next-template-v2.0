@@ -11,23 +11,23 @@ import {
 import { useQuery } from '@tanstack/react-query';
 
 import { ProductType } from '@/entities/product';
-import { getFavorites, getSessionId } from '@/shared/api/favorite-api';
+import { getCompare, getSessionId } from '@/shared/api/compare-api';
 
-interface FavoritesContextType {
+interface CompareContextType {
   products: ProductType[];
   isLoading: boolean;
 }
 
-const FavoritesContext = createContext<FavoritesContextType>({
+const CompareContext = createContext<CompareContextType>({
   products: [],
   isLoading: true,
 });
 
-export const useFavorites = () => {
-  return useContext(FavoritesContext);
+export const useCompare = () => {
+  return useContext(CompareContext);
 };
 
-export const FavoritesProvider = ({
+export const CompareProvider = ({
   children,
   initialData,
 }: {
@@ -44,12 +44,12 @@ export const FavoritesProvider = ({
   }, []);
 
   const { data: products = [], isLoading } = useQuery({
-    queryKey: ['favorites', sid],
+    queryKey: ['compare', sid],
     queryFn: async () => {
       if (!sid) return [];
-      const favs = await getFavorites(sid);
-      if (favs && typeof favs !== 'string' && favs.items) {
-        return favs.items.map((item) => ({
+      const comps = await getCompare(sid);
+      if (comps && typeof comps !== 'string' && comps.items) {
+        return comps.items.map((item) => ({
           ...(item as ProductType),
           imgs: (item as ProductType).imgs || [],
         }));
@@ -60,15 +60,12 @@ export const FavoritesProvider = ({
     initialData: initialData,
   });
 
-  // Показываем загрузку только если компонент инициализирован и данных нет
   const shouldShowLoading =
     (isLoading && !initialData) || (isLoading && products.length === 0);
 
   return (
-    <FavoritesContext.Provider
-      value={{ products, isLoading: shouldShowLoading }}
-    >
+    <CompareContext.Provider value={{ products, isLoading: shouldShowLoading }}>
       {children}
-    </FavoritesContext.Provider>
+    </CompareContext.Provider>
   );
 };

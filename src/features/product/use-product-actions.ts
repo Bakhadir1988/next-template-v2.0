@@ -1,10 +1,11 @@
 import { ProductType } from '@/entities/product';
 
+import { useAddToCompare } from './use-add-to-compare';
+import { useAddToFavorites } from './use-add-to-favorites';
+
 export const useProductActions = (product: ProductType) => {
-  const handleAddToComparison = () => {
-    console.log('Add to comparison:', product.item_id);
-    // Future logic for adding to comparison state/API
-  };
+  const { isFavorite, toggleFavorite } = useAddToFavorites({ product });
+  const { isCompare, toggleCompare } = useAddToCompare({ product });
 
   const handleQuickView = () => {
     console.log('Quick view:', product.item_id);
@@ -12,7 +13,10 @@ export const useProductActions = (product: ProductType) => {
   };
 
   return {
-    handleAddToComparison,
+    isFavorite,
+    toggleFavorite,
+    isCompare,
+    toggleCompare,
     handleQuickView,
   };
 };
