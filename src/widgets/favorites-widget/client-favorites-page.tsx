@@ -1,7 +1,7 @@
 'use client';
 
 import { ProductList } from '@/entities/product';
-import { useFavorites } from '@/features/product/favorites-provider';
+import { useFavorites } from '@/features/product/product-list-provider';
 import { Title } from '@/shared/ui';
 
 import { EmptyFavorites } from './ui';

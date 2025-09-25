@@ -1,4 +1,4 @@
-import { ServerFavoritesPage } from '@/widgets/favorites-page/server-favorites-page';
+import { ServerFavoritesPage } from '@/widgets';
 
 export default function FavoritesPage() {
   return <ServerFavoritesPage />;

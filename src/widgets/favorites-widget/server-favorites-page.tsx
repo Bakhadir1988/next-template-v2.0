@@ -1,8 +1,8 @@
 import { cookies } from 'next/headers';
 
 import { ProductType } from '@/entities/product';
-import { FavoritesProvider } from '@/features/product/favorites-provider';
-import { getFavorites } from '@/shared/api/favorite-api';
+import { FavoritesProvider } from '@/features/product/product-list-provider';
+import { favoritesApi } from '@/shared/api/list-api';
 
 import { ClientFavoritesPage } from './client-favorites-page';
 
@@ -14,7 +14,7 @@ export const ServerFavoritesPage = async () => {
 
   if (sid) {
     try {
-      const data = await getFavorites(sid);
+      const data = await favoritesApi.get(sid);
       if (data && typeof data !== 'string' && data.items) {
         initialData = data.items.map((item) => ({
           ...(item as ProductType),

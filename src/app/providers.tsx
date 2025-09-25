@@ -1,5 +1,3 @@
-import { CompareProvider } from '@/features/product/compare-provider';
-import { FavoritesProvider } from '@/features/product/favorites-provider';
 import QueryProvider from '@/shared/lib/query-provider';
 import { SessionProvider } from '@/shared/lib/session-provider';
 
@@ -10,12 +8,8 @@ export function Providers({
 }>) {
   return (
     <QueryProvider>
-      <FavoritesProvider>
-        <CompareProvider>
-          <SessionProvider />
-          {children}
-        </CompareProvider>
-      </FavoritesProvider>
+      <SessionProvider />
+      {children}
     </QueryProvider>
   );
 }

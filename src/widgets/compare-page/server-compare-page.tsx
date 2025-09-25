@@ -1,8 +1,8 @@
 import { cookies } from 'next/headers';
 
 import { ProductType } from '@/entities/product';
-import { CompareProvider } from '@/features/product/compare-provider';
-import { getCompare } from '@/shared/api/compare-api';
+import { CompareProvider } from '@/features/product/product-list-provider';
+import { compareApi } from '@/shared/api/list-api';
 
 import { ClientComparePage } from './client-compare-page';
 
@@ -14,7 +14,7 @@ export const ServerComparePage = async () => {
 
   if (sid) {
     try {
-      const data = await getCompare(sid);
+      const data = await compareApi.get(sid);
       if (data && typeof data !== 'string' && data.items) {
         initialData = data.items.map((item) => ({
           ...(item as ProductType),

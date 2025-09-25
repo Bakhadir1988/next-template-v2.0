@@ -9,15 +9,21 @@ import {
 } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
-import { useCompare } from '@/features/product/compare-provider';
-import { useFavorites } from '@/features/product/favorites-provider';
+import { useProductListQuery } from '@/features/product/use-product-list-query';
+import { compareApi, favoritesApi } from '@/shared/api/list-api';
 import { Container } from '@/shared/ui/container';
 
 import styles from './header.module.scss';
 
 export const Header = () => {
-  const { products: favoriteProducts } = useFavorites();
-  const { products: compareProducts } = useCompare();
+  const { products: favoriteProducts } = useProductListQuery(
+    'favorites',
+    favoritesApi.get,
+  );
+  const { products: compareProducts } = useProductListQuery(
+    'compare',
+    compareApi.get,
+  );
   const favoritesCount = favoriteProducts.length;
   const compareCount = compareProducts.length;
 

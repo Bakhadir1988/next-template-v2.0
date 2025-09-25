@@ -18,9 +18,6 @@ export const getCatalogDataBySlug = async (
     throw new Error(`API Error: ${response.status}`);
   }
 
-  console.log('slug', slug);
-  console.log('endpoint', endpoint);
-
   return (await response.json()) as ProductType | CatalogApiResponse;
 };
 

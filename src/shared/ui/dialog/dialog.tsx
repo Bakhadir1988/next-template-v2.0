@@ -24,8 +24,6 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
     },
     ref,
   ) => {
-    console.log(width);
-
     return (
       <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
         <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>

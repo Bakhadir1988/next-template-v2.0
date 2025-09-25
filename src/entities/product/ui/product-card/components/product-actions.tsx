@@ -5,8 +5,10 @@ import { clsx } from 'clsx';
 
 import { ProductType } from '@/entities/product';
 import { ProductQuickViewModal } from '@/features/product/product-quick-view-modal/product-quick-view-modal';
-import { useAddToCompare } from '@/features/product/use-add-to-compare';
-import { useAddToFavorites } from '@/features/product/use-add-to-favorites';
+import {
+  useAddToCompare,
+  useAddToFavorites,
+} from '@/features/product/use-add-to-list';
 import { Box, Button } from '@/shared/ui';
 
 import styles from '../product-card.module.scss';

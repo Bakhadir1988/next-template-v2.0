@@ -1,7 +1,7 @@
 'use client';
 
 import { ProductList } from '@/entities/product';
-import { useCompare } from '@/features/product/compare-provider';
+import { useCompare } from '@/features/product/product-list-provider';
 import { Title } from '@/shared/ui';
 
 import { EmptyCompare } from './ui';
